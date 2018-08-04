@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+               
+  <localRepository>G:\\intellijidea_2018\\testproject_repo</localRepository>
+  <interactiveMode>true</interactiveMode>
+  <offline>false</offline>
+  <pluginGroups>
+ 
+  </pluginGroups>
+  <!--下载地址-->
+  <mirrors>
+    <mirror>
+      <id>mirrorId</id>
+      <mirrorOf>repositoryId</mirrorOf>
+      <name>Human Readable Name for this Mirror.</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </mirror>
+  </mirrors>
+
+
+
+ <!--此设置，主要用于无法直接访问中心的库用户配置。-->
+   <!--<proxies>
+    <proxy>
+      <id>optional</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <username>proxyuser</username>
+      <password>proxypass</password>
+      <host>proxy.host.net</host>
+      <port>80</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+  </proxies>
+ 
+  <servers>
+    <server>
+      <id>deploymentRepo</id>
+      <username>repouser</username>
+      <password>repopwd</password>
+    </server>
+  </servers>
+ 
+  <mirrors>
+    <mirror>
+      <id>mirrorId</id>
+      <mirrorOf>repositoryId</mirrorOf>
+      <name>Human Readable Name for this Mirror.</name>
+      <url>http://my.repository.com/repo/path</url>
+    </mirror>
+  </mirrors>
+ 
+  <profiles>
+    <profile>
+      <id>jdk-1.5</id>
+      <activation>
+        <jdk>1.5</jdk>
+      </activation>
+      <repositories>
+        <repository>
+          <id>jdk15</id>
+          <name>jdk1.5</name>
+          <url>http://www.myhost.com/maven/jdk15</url>
+          <layout>default</layout>
+          <snapshotPolicy>always</snapshotPolicy>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>jdk-1.5</activeProfile>
+  </activeProfiles>-->
+</settings>
