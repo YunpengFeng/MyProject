@@ -2,7 +2,7 @@
 $( function(){
     $.ajax({
         type:'POST',
-        url:'../../UserCRUD/synRequest',
+        url:'../../UserCRUD/showUsers',
         dataType:'json',
         success:function(data){
             var html ="";

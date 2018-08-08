@@ -154,5 +154,12 @@ public class UserController {
         return list;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/showUsers", method = RequestMethod.POST)
+    public List<User> showUser(Model model) {
+        System.out.println("**********showUser********");
+        return userService.getAllUser();
+    }
+
 
 }
