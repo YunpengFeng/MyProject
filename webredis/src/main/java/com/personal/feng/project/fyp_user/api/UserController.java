@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
+import com.personal.feng.utils.ResultJO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -188,6 +189,16 @@ public class UserController {
             user.setId("error");
         }
         return user;
+
+    }
+
+    /*最好封装一下数据*/
+    @ResponseBody
+    @RequestMapping(value = "/getalluser", method = RequestMethod.POST)
+    public ResultJO getalluser(HttpSession httpsession) {
+        System.out.println("**********showUser********");
+        return  ResultJO.backMessage(userService.getAllUser(),"success");
+
 
     }
 }

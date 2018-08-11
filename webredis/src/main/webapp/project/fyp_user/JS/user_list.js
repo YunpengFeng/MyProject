@@ -6,14 +6,17 @@ $( function(){
 function inituserlist() {
     $.ajax({
         type:'POST',
-        url:'../../UserCRUD/showUsers',
+        url:'../../UserCRUD/getalluser',
         dataType:'json',
         success:function(data){
             var html ="";
-            for(var i in data){
-                html += '<div style="color:red">姓名：'+data[i].userName+';年齡：'+data[i].age+';性别：'+data[i].sex+"<br></div>";
+            if(data.message == 'success') {
+                var list = data.data;
+                for (var i in list) {
+                    html += '<div style="color:red">姓名：' + list[i].userName + ';年齡：' + list[i].age + ';性别：' + list[i].sex + "<br></div>";
+                }
+                $("#test").html(html);
             }
-            $("#test").html(html);
         }
 
     })

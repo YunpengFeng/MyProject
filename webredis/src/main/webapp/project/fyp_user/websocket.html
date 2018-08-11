@@ -9,16 +9,17 @@
     <script type="text/javascript" src="JS/websocket.js"></script>
     <style>
         #message{
-            width: 300px;
+            width: 600px;
             height: 400px;
-            margin-left: 30px;
-            background: gray;
+            margin-left: 100px;
+            background: white;
+            border: 1px black solid;
         }
     </style>
 </head>
 
 <body>
-Welcome,<label id = "username"></label><br/>
+Welcome,<label id = "tt"></label><br/>
 <input id="text" type="text" /><button onclick="send()">hit me Send web socket</button>
 <button onclick="closeWebSocket()">Close</button>
 <p>下面将显示得到的信息：</p>

@@ -1,10 +1,13 @@
 package com.personal.feng.project.fyp_user.api;
 
 
+import com.personal.feng.utils.ResultJO;
+
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -60,19 +63,21 @@ public class FirstWebSocket {
         System.out.println("来自客户端的消息:" + message);
         //群发消息
         if (1 < 2) {
-            this.sendAll(message);
+            this.sendAll(message,userid);
         } else {
             //给指定的人发消息
             this.sendToUser(message);
         }
     }
 
-    public void sendAll(String message){
+    public void sendAll(String message,String userid){
         Date date = new Date();
+        SimpleDateFormat  simple  = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         /*通过key的方式遍历map*/
         for(String key : webSocketSet.keySet()){
             try {
-                webSocketSet.get(key).sendMessage("用戶"+key+"于"+date.toString()+"发送了消息为：\""+message+"\"");
+                String _message ="用戶"+userid+"于"+simple.format(date)+"发送了消息为：\"<b>"+message+"\"</b>";
+                webSocketSet.get(key).sendMessage(_message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -81,7 +86,8 @@ public class FirstWebSocket {
     }
 
    public void sendToUser(String message){
-       Date date = new Date();
+
+  Date date = new Date();
        /*通过key的方式遍历map*/
            try {
                webSocketSet.get(userid).sendMessage("用戶"+userid+"于"+date.toString()+"发送了消息为：\""+message+"\"");
