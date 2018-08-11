@@ -20,7 +20,7 @@ public class TestProjectService {
         for(int i = 0;i<6;i++) {
             user = userService.getUserById(i);
         }
-       System.out.println("性別1："+user.getsex());
+       System.out.println("性別："+user.getsex());
     }
 
     @Test
