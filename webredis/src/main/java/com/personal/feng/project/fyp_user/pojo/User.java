@@ -13,17 +13,25 @@ public class User implements Serializable{
      *
      */
     private static final long serialVersionUID = -5244288298702801619L;
-    private int id;
+    private String id;
     private String userName;
     private String sex;
     private int age;
+    private String password;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {

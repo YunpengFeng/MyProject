@@ -1,8 +1,11 @@
 package com.personal.feng.project.fyp_user.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
@@ -106,7 +109,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/editUser",method=RequestMethod.POST)
-    public ModelAndView editUser(String userName, String sex, int age, int id) {
+    public ModelAndView editUser(String userName, String sex, int age, String id) {
         System.out.println(userName + sex + age);
         User user = new User();
         user.setsex(sex);
@@ -128,7 +131,7 @@ public class UserController {
         user.setsex("男");
         user.setUserName("冯云鹏");
         user.setAge(23);
-        user.setId(12);
+        user.setId("12");
         model.addAttribute("user",user);
         return "hello";
     }
@@ -142,14 +145,14 @@ public class UserController {
         user1.setsex("男");
         user1.setUserName("冯云鹏");
         user1.setAge(23);
-        user1.setId(12);
+        user1.setId("12");
         list.add(user1);
 
         User user2 = new User();
         user2.setsex("女");
         user2.setUserName("劉小玉");
         user2.setAge(23);
-        user2.setId(11);
+        user2.setId("11");
         list.add(user2);
         return list;
     }
@@ -160,6 +163,33 @@ public class UserController {
         System.out.println("**********showUser********");
         return userService.getAllUser();
     }
+    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Map<String ,String> login(@RequestParam(value = "userid",required = false) String userid,
+                                     @RequestParam(value = "pwd",required = false) String pwd,
+                                     HttpSession httpsession) {
+        Map<String ,String> map = new HashMap<>();
+        map.put("userid",userid);
+        map.put("pwd",pwd);
+        String flag = userService.login(map,httpsession);
+        if("success".equals(flag))
+            map.put("message","success");
+        else
+            map.put("message","error");
+        return map;
+    }
 
+    /*最好封装一下数据*/
+    @ResponseBody
+    @RequestMapping(value = "/getUserinfo", method = RequestMethod.POST)
+    public User getUserinfo(HttpSession httpsession) {
+        User user =  (User)httpsession.getAttribute("sys_user");
+        if(user == null){
+            user.setId("error");
+        }
+        return user;
 
+    }
 }
+
+

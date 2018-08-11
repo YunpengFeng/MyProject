@@ -1,11 +1,14 @@
 package com.personal.feng.project.fyp_user.service.imp;
 
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import com.personal.feng.project.fyp_user.dao.UserMapper;
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -30,7 +33,7 @@ public class UserServiceImp implements IUserService {
 
     @Cacheable("getUserById") //标注该方法查询的结果进入缓存，再次访问时直接读取缓存中的数据
 
-    public User getUserById(int userId) {
+    public User getUserById(String userId) {
         return this.iUserDao.selectByPrimaryKey(userId);
     }
 
@@ -61,6 +64,26 @@ public class UserServiceImp implements IUserService {
     @CacheEvict(value = {"getAllUser", "getUserById", "findUsers"}, allEntries = true)
     public void editUser(User user) {
         this.iUserDao.editUser(user);
+    }
+
+
+    @Override
+    public String login(Map<String, String> map,HttpSession httpsession) {
+        String userid = null;
+        String pwd = null;
+        if(!StringUtils.isWhitespace(userid)){
+            userid = map.get("userid");
+            pwd =   map.get("pwd");
+        }
+        User user = iUserDao.selectByPrimaryKey(userid);
+        if(user != null){
+            if(user.getPassword().equals(pwd)){
+                httpsession.setAttribute("sys_user",user);
+                return "success";
+            }
+        }
+
+        return "error";
     }
 
 }

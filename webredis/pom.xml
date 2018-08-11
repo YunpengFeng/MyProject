@@ -37,6 +37,7 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <spring.version>4.2.0.RELEASE</spring.version>
     </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -152,6 +153,7 @@
             <version>2.6.1</version>
         </dependency>
 
+        <!--alibaba fastson和jackson功能类似-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -219,7 +221,6 @@
             <version>1.3.3</version>
         </dependency>
 
-        <!-- https://mvnjunitrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -227,6 +228,30 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--websocket 第一种方式shiy使用javaee javax.websocket-->
+        <!--javaee-api会引入javax-servlet-api，与服务器中的tomcat的jar包重复，就会不引用-->
+        <!--<dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>-->
 
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--第二种方式 使用spring-websocket包，用一个必须注释另外一个-->
+        <!--<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring.version}</version>
+        </dependency>-->
     </dependencies>
 </project>

@@ -18,7 +18,7 @@ public class TestProjectService {
     public void testGetUserBId(){
         User user = null;
         for(int i = 0;i<6;i++) {
-            user = userService.getUserById(i);
+            user = userService.getUserById(String.valueOf(i));
         }
        System.out.println("性別："+user.getsex());
     }
@@ -27,7 +27,7 @@ public class TestProjectService {
     public void edituser(){
         User user = new User();
         user.setAge(10);
-        user.setId(1);
+        user.setId("1");
         user.setsex("女");
         user.setUserName("馮雲鵬");
         userService.editUser(user);

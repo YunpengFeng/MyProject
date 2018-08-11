@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserMapper {
 
-    public User selectByPrimaryKey(int userId);
+    public User selectByPrimaryKey(String userId);
 
     public List<User> selectAllUser();
 

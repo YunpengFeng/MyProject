@@ -1,5 +1,9 @@
 
 $( function(){
+    inituserlist();
+})
+
+function inituserlist() {
     $.ajax({
         type:'POST',
         url:'../../UserCRUD/showUsers',
@@ -13,4 +17,24 @@ $( function(){
         }
 
     })
-})
+}
+
+function login() {
+    $.ajax({
+        type:'POST',
+        url:'../../UserCRUD/login',
+        data:{
+            userid:$("#userid").val(),
+            pwd:$("#pwd").val()
+        },
+        success:function (data) {
+            if(data.message == 'success'){
+                window.location.href='websocket.html';
+            }else{
+                alert("账号或者密码错误");
+                $("#userid").val("");
+                $("#pwd").val("");
+            }
+        }
+    })
+}

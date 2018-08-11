@@ -2,7 +2,9 @@ package com.personal.feng.project.fyp_user.service;
 
 import com.personal.feng.project.fyp_user.pojo.User;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * user表的操作接口
@@ -15,7 +17,7 @@ public interface IUserService {
      * @param userId
      * @return
      */
-    public User getUserById(int userId);
+    public User getUserById(String userId);
 
     /**
      * 查询所有的user
@@ -48,5 +50,6 @@ public interface IUserService {
      */
     public void editUser(User user);
 
+    String login(Map<String,String> map,HttpSession httpsession);
 }
 
