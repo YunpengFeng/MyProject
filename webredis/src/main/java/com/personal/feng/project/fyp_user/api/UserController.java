@@ -1,11 +1,13 @@
 package com.personal.feng.project.fyp_user.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
@@ -27,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/UserCRUD")
 public class UserController {
 
+
+    private Session session;
     @Resource
     private IUserService userService;
 
@@ -178,8 +182,20 @@ public class UserController {
         map.put("userid",userid);
         map.put("pwd",pwd);
         String flag = userService.login(map,httpsession);
-        if("success".equals(flag))
-            map.put("message","success");
+        User user =  (User)httpsession.getAttribute("sys_user");
+        if("success".equals(flag)) {
+            try {
+                /*此处可以调用业务逻辑代码，将要显示的信息推到前台
+                * 信息可以组成json的格式，前台进行处理
+                * 下一步发送邮箱
+                * */
+                AdminSocket.sendMessage("新用户登录了"+user.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            map.put("message", "success");
+        }
         else
             map.put("message","error");
         return map;
