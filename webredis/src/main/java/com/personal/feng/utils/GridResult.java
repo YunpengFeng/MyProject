@@ -4,7 +4,7 @@ package com.personal.feng.utils;
 public class GridResult {
     private  Integer total ;//总数
     private Object data; //数据
-    private String message; //信息
+    private String message; //信息辨识
 
     public Integer getTotal() {
         return total;
