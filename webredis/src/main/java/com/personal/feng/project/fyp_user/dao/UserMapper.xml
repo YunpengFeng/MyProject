@@ -27,6 +27,13 @@
         from tb_user
     </select>
 
+    <!-- 根据id查询user -->
+    <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user where id =#{id}
+    </select>
+
     <!-- 添加一个用户 -->
     <insert id="insertUser" parameterType="com.personal.feng.project.fyp_user.pojo.User">
         INSERT INTO

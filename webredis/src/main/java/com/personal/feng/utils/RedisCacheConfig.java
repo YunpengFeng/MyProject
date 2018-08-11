@@ -12,7 +12,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
- * 通过spring管理redis缓存配置
+ * 通过spring管理redis缓存配置  -------------------配置设置key的方式
  *
  * @author Administrator
  *
