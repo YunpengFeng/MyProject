@@ -164,6 +164,11 @@ public class UserController {
         System.out.println("**********showUser********");
         return userService.getAllUser();
     }
+
+    /*使用登录成功模拟，登录成功则显示在adminmanage.html页面上相关人的信息
+     * 买家下单，
+     * 卖家立即能看得到下单信息，并实现邮箱（或者短信）回复
+     * */
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Map<String ,String> login(@RequestParam(value = "userid",required = false) String userid,
@@ -180,7 +185,8 @@ public class UserController {
         return map;
     }
 
-    /*最好封装一下数据*/
+
+    /*最好封装一下数据，下面的方法已经进行封装*/
     @ResponseBody
     @RequestMapping(value = "/getUserinfo", method = RequestMethod.POST)
     public User getUserinfo(HttpSession httpsession) {
@@ -191,8 +197,6 @@ public class UserController {
         return user;
 
     }
-
-    /*最好封装一下数据*/
     @ResponseBody
     @RequestMapping(value = "/getalluser", method = RequestMethod.POST)
     public ResultJO getalluser(HttpSession httpsession) {

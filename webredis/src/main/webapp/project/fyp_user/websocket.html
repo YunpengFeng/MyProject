@@ -1,14 +1,14 @@
-
 <!DOCTYPE HTML>
 
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../../Image/logo.ico" type="img/x-ico"/>
     <title>WebSocket连接</title>
     <script type="text/javascript" src="../../JavaScript/Jquery/jquery.min.js"></script>
     <script type="text/javascript" src="JS/websocket.js"></script>
     <style>
-        #message{
+        #message {
             width: 600px;
             height: 400px;
             margin-left: 100px;
@@ -19,8 +19,9 @@
 </head>
 
 <body>
-Welcome,<label id = "tt"></label><br/>
-<input id="text" type="text" /><button onclick="send()">hit me Send web socket</button>
+Welcome,<label id="tt"></label><br/>
+<input id="text" type="text"/>
+<button onclick="send()">hit me Send web socket</button>
 <button onclick="closeWebSocket()">Close</button>
 <p>下面将显示得到的信息：</p>
 <div id="message"></div>

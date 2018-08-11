@@ -8,7 +8,7 @@ $(function () {
     var userinfo = "";
 
     $.ajax({
-        async: false, /*此处不能为异步，要先加载出用户信息,但是在火狐浏览器中会出现诸多的问题*/
+        async: false, /*此处不能为异步，要先加载出用户信息*/
         type: 'POST',
         url: '../../UserCRUD/getUserinfo',
         success: function (data) {
@@ -20,22 +20,6 @@ $(function () {
     })
 
 
-    /*使用声明式写法*/
-    /*(function(){
-        "use strict";
-        var init = {
-            userinit: function () {
-
-            },
-
-
-        }
-
-        $(function(){
-           init.userinit();
-        })
-
-    })("../../")*/
 
     var websocket = null;
     //判断当前浏览器是否支持WebSocket
@@ -73,19 +57,19 @@ $(function () {
 
     //将消息显示在网页上
     setMessageInnerHTML = function (innerHTML) {
-        document.getElementById('message').innerHTML += innerHTML + '<br/><br/>';
+        document.getElementById('number').innerHTML += innerHTML + '<br/><br/>';
     }
 
     //关闭连接
     closeWebSocket = function () {
         websocket.close();
     }
-
+/*
     //发送消息
     send = function () {
         var message = document.getElementById('text').value;
         websocket.send(message);
-    }
+    }*/
 });
 
 
