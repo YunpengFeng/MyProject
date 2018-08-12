@@ -14,10 +14,13 @@
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
 
-  <!-- 加载spring bean -->
+  <!-- 加载spring bean  有多个用逗号隔开-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
+    <param-value>
+      classpath:applicationContext.xml,
+      classpath:account-email.xml
+    </param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

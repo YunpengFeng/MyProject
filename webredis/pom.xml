@@ -253,5 +253,13 @@
             <artifactId>spring-messaging</artifactId>
             <version>${spring.version}</version>
         </dependency>-->
+
+        <!--邮件发送的jar-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+
     </dependencies>
 </project>

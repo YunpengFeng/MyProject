@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint(value = "/adminwebsocket")
 public class AdminSocket {
     //静态变量，用来记录当前在它来给客户端发送数据
-    private  static  Session session;
+    private  static  Session session;//???????????????????????  static
 
     /*用戶的id，后期可以改成cookie*/
     private String userid = "";

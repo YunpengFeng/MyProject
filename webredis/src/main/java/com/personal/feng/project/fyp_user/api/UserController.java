@@ -12,6 +12,7 @@ import javax.websocket.Session;
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
 import com.personal.feng.utils.ResultJO;
+import com.personal.feng.utils.mail.Email;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,6 +34,9 @@ public class UserController {
     private Session session;
     @Resource
     private IUserService userService;
+
+    @Resource(name = "EmailService")
+    private Email EmailService;
 
     /**
      * 查询所有User
@@ -107,13 +111,14 @@ public class UserController {
 
     /**
      * 更新用户信息
+     *
      * @param userName
      * @param sex
      * @param age
      * @param id
      * @return
      */
-    @RequestMapping(value="/editUser",method=RequestMethod.POST)
+    @RequestMapping(value = "/editUser", method = RequestMethod.POST)
     public ModelAndView editUser(String userName, String sex, int age, String id) {
         System.out.println(userName + sex + age);
         User user = new User();
@@ -130,21 +135,21 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping(value="/tohello",method=RequestMethod.GET)
+    @RequestMapping(value = "/tohello", method = RequestMethod.GET)
     public String tohello(Model model) {
         User user = new User();
         user.setsex("男");
         user.setUserName("冯云鹏");
         user.setAge(23);
         user.setId("12");
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "hello";
     }
 
     @ResponseBody
-    @RequestMapping(value="/synRequest",method=RequestMethod.POST)
-    public List<User> synRequest(@RequestParam(value = "testa",required = false) String id
-                                 ,Model model) {
+    @RequestMapping(value = "/synRequest", method = RequestMethod.POST)
+    public List<User> synRequest(@RequestParam(value = "testa", required = false) String id
+            , Model model) {
         List<User> list = new ArrayList<User>();
         User user1 = new User();
         user1.setsex("男");
@@ -175,29 +180,32 @@ public class UserController {
      * */
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Map<String ,String> login(@RequestParam(value = "userid",required = false) String userid,
-                                     @RequestParam(value = "pwd",required = false) String pwd,
+    public Map<String, String> login(@RequestParam(value = "userid", required = false) String userid,
+                                     @RequestParam(value = "pwd", required = false) String pwd,
                                      HttpSession httpsession) {
-        Map<String ,String> map = new HashMap<>();
-        map.put("userid",userid);
-        map.put("pwd",pwd);
-        String flag = userService.login(map,httpsession);
-        User user =  (User)httpsession.getAttribute("sys_user");
-        if("success".equals(flag)) {
+        Map<String, String> map = new HashMap<>();
+        map.put("userid", userid);
+        map.put("pwd", pwd);
+        String flag = userService.login(map, httpsession);
+        User user = (User) httpsession.getAttribute("sys_user");
+        if ("success".equals(flag)) {
             try {
                 /*此处可以调用业务逻辑代码，将要显示的信息推到前台
-                * 信息可以组成json的格式，前台进行处理
-                * 下一步发送邮箱
-                * */
-                AdminSocket.sendMessage("新用户登录了"+user.toString());
+                 * 信息可以组成json的格式，前台进行处理
+                 * 下一步发送邮箱
+                 * */
+
+                /*发送一个消息有个bug当管理员并没有创建一个连接时，会报nullpointexception错误*/
+                AdminSocket.sendMessage("新用户登录了" + user.toString());
+                String htmlText = "尊敬的" + user.getUserName() + ",你已经在本系统登录,请保管你的密码，防止被泄露！";
+                EmailService.sendMail("1565370422@qq.com", "尊敬的Miss Liu", htmlText);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             map.put("message", "success");
-        }
-        else
-            map.put("message","error");
+        } else
+            map.put("message", "error");
         return map;
     }
 
@@ -206,18 +214,19 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/getUserinfo", method = RequestMethod.POST)
     public User getUserinfo(HttpSession httpsession) {
-        User user =  (User)httpsession.getAttribute("sys_user");
-        if(user == null){
+        User user = (User) httpsession.getAttribute("sys_user");
+        if (user == null) {
             user.setId("error");
         }
         return user;
 
     }
+
     @ResponseBody
     @RequestMapping(value = "/getalluser", method = RequestMethod.POST)
     public ResultJO getalluser(HttpSession httpsession) {
         System.out.println("**********showUser********");
-        return  ResultJO.backMessage(userService.getAllUser(),"success");
+        return ResultJO.backMessage(userService.getAllUser(), "success");
 
 
     }
