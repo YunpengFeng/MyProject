@@ -261,5 +261,15 @@
             <version>1.4.4</version>
         </dependency>
 
+
+        <!--生成二维码的jar包（zxing或者qrcode）-->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+
+
     </dependencies>
 </project>

@@ -43,4 +43,11 @@ public class ResultJO {
         rjo.setMessage(message);
         return rjo;
     }
+	/*默认消息为false*/
+	 public static ResultJO backDefalutMessage(Object data,String message){
+        ResultJO rjo = new ResultJO();
+        rjo.setData(data);
+        rjo.setMessage("error");
+        return rjo;
+    }
 }
