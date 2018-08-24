@@ -57,7 +57,7 @@ public class WriteQrcode {
         qrcode.setQrcodeVersion(7);// 版本
 
 
-        // 67+12*(版本号-1) 固定公式
+        // 67+12*(版本号-1) 固定公式 11011111
 
         int width = 67 + 12 * (7 - 1);
 
