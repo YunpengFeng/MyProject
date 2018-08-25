@@ -6,14 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.jms.Destination;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 
+import com.personal.feng.project.active_mq.service.ProducerService;
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
 import com.personal.feng.utils.ResultJO;
 import com.personal.feng.utils.mail.Email;
+import org.apache.activemq.command.ActiveMQDestination;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,13 +34,22 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/UserCRUD")
 public class UserController {
 
+    /*邮件发送服务*/
+   /* @Resource(name = "EmailService")
+    private Email EmailService;*/
 
     private Session session;
     @Resource
     private IUserService userService;
 
-    @Resource(name = "EmailService")
-    private Email EmailService;
+
+    //队列名
+    @Resource(name = "queueDestination")
+    private Destination queueDestination;
+
+    //队列消息生产者
+    @Resource(name = "producerService")
+    private ProducerService producerService;
 
     /**
      * 查询所有User
@@ -198,8 +210,14 @@ public class UserController {
 
                 /*发送一个消息有个bug当管理员并没有创建一个连接时，会报nullpointexception错误*/
                 AdminSocket.sendMessage("新用户登录了" + user.toString());
-                String htmlText = "尊敬的" + user.getUserName() + ",你已经在本系统登录,请保管你的密码，防止被泄露！";
-                EmailService.sendMail("1565370422@qq.com", "尊敬的Miss Liu", htmlText);
+                String htmlTextMessage = "尊敬的" + user.getUserName() + ",你已经在本系统登录,请保管你的密码，防止被泄露！";
+
+                ActiveMQDestination activeMQDestination = (ActiveMQDestination) queueDestination;
+                producerService.sendTxtMessage(activeMQDestination.getCompositeDestinations()[1], htmlTextMessage);
+                /*
+                 * 已将邮件服务交给 apache的activemq消息进行处理
+                 *EmailService.sendMail("1565370422@qq.com", "尊敬的Miss Liu", htmlTextMessage);
+                 */
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -239,7 +257,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/userinfo/{id}", method = RequestMethod.POST)
     public ResultJO getUserinfoById(@PathVariable("id") String id,
-                                    @RequestParam(value = "testParam",required = false) String testParam,
+                                    @RequestParam(value = "testParam", required = false) String testParam,
                                     HttpSession httpsession) {
         System.out.println("**********使用restful风格********");
         return ResultJO.backMessage(userService.getUserById(id), "success");

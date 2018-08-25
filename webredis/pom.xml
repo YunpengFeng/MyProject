@@ -269,6 +269,24 @@
             <version>3.3.0</version>
         </dependency>
 
+        <!--apache出品 ActiveMq消息中间件-->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--此段配置activemq在xml配置文件中会导致xsd报错相关问题-->
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-spring</artifactId>
+            <version>4.3</version>
+        </dependency>
 
 
     </dependencies>

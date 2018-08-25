@@ -19,7 +19,8 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:applicationContext.xml,
-      classpath:account-email.xml
+      classpath:account-email.xml,
+      classpath:activemq.xml
     </param-value>
   </context-param>
   <listener>
