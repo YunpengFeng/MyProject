@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
@@ -146,8 +147,8 @@ public class UserController {
         return "hello";
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/synRequest", method = RequestMethod.POST)
+    /*@ResponseBody
+    @RequestMapping(value = "/synRequest", method = RequestMethod.POST)*/
     public List<User> synRequest(@RequestParam(value = "testa", required = false) String id
             , Model model) {
         List<User> list = new ArrayList<User>();
@@ -230,6 +231,22 @@ public class UserController {
 
 
     }
+
+    /*
+     *使用restful风格
+     * 将其变成一部分url的一部门或者携带参数
+     * */
+    @ResponseBody
+    @RequestMapping(value = "/userinfo/{id}", method = RequestMethod.POST)
+    public ResultJO getUserinfoById(@PathVariable("id") String id,
+                                    @RequestParam(value = "testParam",required = false) String testParam,
+                                    HttpSession httpsession) {
+        System.out.println("**********使用restful风格********");
+        return ResultJO.backMessage(userService.getUserById(id), "success");
+
+
+    }
+
 }
 
 
