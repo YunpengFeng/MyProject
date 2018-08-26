@@ -35,8 +35,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     /*邮件发送服务*/
-   /* @Resource(name = "EmailService")
-    private Email EmailService;*/
+    @Resource(name = "EmailService")
+    private Email EmailService;
 
     private Session session;
     @Resource
@@ -215,9 +215,9 @@ public class UserController {
                 ActiveMQDestination activeMQDestination = (ActiveMQDestination) queueDestination;
                 producerService.sendTxtMessage(activeMQDestination.getCompositeDestinations()[1], htmlTextMessage);
                 /*
-                 * 已将邮件服务交给 apache的activemq消息进行处理
-                 *EmailService.sendMail("1565370422@qq.com", "尊敬的Miss Liu", htmlTextMessage);
-                 */
+                 * 已将邮件服务交给 apache的activemq消息进行处理*/
+                //EmailService.sendMail("feng_profession@163.com", "尊敬的Miss Liu", htmlTextMessage);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

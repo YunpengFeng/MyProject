@@ -41,7 +41,7 @@ public class QueueMessageListener implements MessageListener {
                 // 如果是文本消息
                 if (message instanceof TextMessage) {
                     TextMessage tm = (TextMessage) message;
-                    EmailService.sendMail("1565370422@qq.com", "apache activemq", "明天吃什么啊，刘阿姨");
+                    EmailService.sendMail("feng_profession@163.com", "apache activemq", tm.getText());
                     System.out.println("...............已经发送成功！.....................");
 
                 }
