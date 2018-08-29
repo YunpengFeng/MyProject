@@ -12,11 +12,14 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 
 import com.personal.feng.project.active_mq.service.ProducerService;
+import com.personal.feng.project.active_mq.service.TopicProducerService;
 import com.personal.feng.project.fyp_user.pojo.User;
 import com.personal.feng.project.fyp_user.service.IUserService;
 import com.personal.feng.utils.ResultJO;
 import com.personal.feng.utils.mail.Email;
 import org.apache.activemq.command.ActiveMQDestination;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,9 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * user控制器
  *
- * @author YaoQi
+ * @author james feng
  */
 
 @Controller
@@ -43,13 +45,24 @@ public class UserController {
     private IUserService userService;
 
 
-    //队列名
+    //queues队列
     @Resource(name = "queueDestination")
     private Destination queueDestination;
+
+    //topic发布-订阅
+    @Resource(name ="topicDestination")
+    private Destination topicDestination;
+
+
 
     //队列消息生产者
     @Resource(name = "producerService")
     private ProducerService producerService;
+
+    //发布-订阅消息生产者
+    //@Resource(name = "topicProducerService")
+    @Autowired
+    private TopicProducerService topicProducerService;
 
     /**
      * 查询所有User
@@ -214,6 +227,7 @@ public class UserController {
 
                 ActiveMQDestination activeMQDestination = (ActiveMQDestination) queueDestination;
                 producerService.sendTxtMessage(activeMQDestination.getCompositeDestinations()[1], htmlTextMessage);
+
                 /*
                  * 已将邮件服务交给 apache的activemq消息进行处理*/
                 //EmailService.sendMail("feng_profession@163.com", "尊敬的Miss Liu", htmlTextMessage);
@@ -246,8 +260,6 @@ public class UserController {
     public ResultJO getalluser(HttpSession httpsession) {
         System.out.println("**********showUser********");
         return ResultJO.backMessage(userService.getAllUser(), "success");
-
-
     }
 
     /*
@@ -260,6 +272,11 @@ public class UserController {
                                     @RequestParam(value = "testParam", required = false) String testParam,
                                     HttpSession httpsession) {
         System.out.println("**********使用restful风格********");
+
+        /*在此处使用pub-sub模式进行试验*/
+        ActiveMQDestination activemqTopicDestination = (ActiveMQDestination)topicDestination;
+        topicProducerService.sendObjectMessage(activemqTopicDestination.getCompositeDestinations()[1], userService.getUserById(id));
+
         return ResultJO.backMessage(userService.getUserById(id), "success");
 
 

@@ -20,8 +20,14 @@
     <context:component-scan base-package="com.personal.feng.project.active_mq"/>
     <mvc:annotation-driven/>
 
-    <amq:connectionFactory id="amqConnectionFactory" brokerURL="tcp://192.168.7.111:61616" userName="admin"
-                           password="admin"></amq:connectionFactory>
+    <!--....................生产者配置start.....................-->
+    <!--ActiveMQ实现的JMS   useAsyncSend异步发送-->
+    <amq:connectionFactory id="amqConnectionFactory"
+                           brokerURL="tcp://192.168.7.111:61616"
+                           userName="admin"
+                           password="admin"
+                           useAsyncSend="true">
+    </amq:connectionFactory>
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory"
@@ -31,29 +37,63 @@
     </bean>
 
 
-    <!-- 本配置的是定义消息队列-Queue（P2P） 另外一种是消息订阅-发布（pub-sub）-->
+    <!-- 本配置的是定义消息队列-Queue -->
     <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <!-- 配置两个消息队列：queue1,queue2 -->
+        <!-- 配置两个消息队列：Emailqueue,queue2 -->
         <constructor-arg index="0" value="Emailqueue,queue2"/>
     </bean>
 
+    <!--主题目的地，一对多的-->
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <!--设置topic名字-->
+        <constructor-arg value="topic1"/>
+    </bean>
 
-    <!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
+
+    <!-- 配置JMS模板（Queue）（P2P-点对点的模式），Spring提供的JMS工具类，它发送、接收消息。 -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestination" ref="queueDestination"/>
         <property name="receiveTimeout" value="10000"/>
-        <!-- true是topic，false是queue，默认是false，此处显示写出false -->
+        <!-- true是topic，false是queue，默认是false-->
         <property name="pubSubDomain" value="false"/>
     </bean>
 
 
+    <!--topic模式，一种是消息订阅-发布（pub-sub）-->
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="pubSubDomain" value="true"/>
+
+        <!-- 设置接收超时时间 60秒 -->
+        <property name="receiveTimeout" value="60000"/>
+        <!-- 消息不持久化 -->
+        <property name="explicitQosEnabled" value="true"></property>
+    </bean>
+    <!--....................生产者配置end..............................................-->
+
+
+
+
+    <!--...............................消费者配置start..........................................-->
     <!-- 配置消息队列监听者（Queue） -->
     <bean id="queueMessageListener" class="com.personal.feng.project.active_mq.service.QueueMessageListener"/>
     <bean id="queueListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="destination" ref="queueDestination"/>
         <property name="messageListener" ref="queueMessageListener"/>
+        <!-- <property name="concurrentConsumers" value="4"/>--><!--设置消费者固定并发数-->
+        <property name="concurrency" value="4-8"/><!--设置消费者并发数量范围4-8个-->
     </bean>
 
+    <!-- 配置消息队列监听者（topic） -->
+    <bean id="topicMessageListen" class="com.personal.feng.project.active_mq.service.TopicMessageListen"/>
+    <bean id="defaultMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 注册activemq名称 -->
+        <property name="destination" ref="topicDestination"/>
+        <property name="messageListener" ref="topicMessageListen"/>
+    </bean>
+
+    <!--...............................消费者配置end..........................................-->
 </beans>

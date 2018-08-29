@@ -26,7 +26,10 @@ public class QueueMessageListener implements MessageListener {
     @Resource(name = "EmailService")
     private Email EmailService;
 
-    //当收到消息后，自动调用该方法
+    /*
+     *当收到消息后，自动调用该方法
+     * 使用Asynchronous的方式发送
+     */
     @Override
     public void onMessage(Message message) {
         try {

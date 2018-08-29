@@ -19,7 +19,8 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 /*
- *消息生产者
+ *消息生产者 p2p模式
+ *
  * */
 @Service
 public class ProducerService {
