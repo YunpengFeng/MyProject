@@ -44,8 +44,8 @@ public class HttpClientUtils {
         /*httpClient = HttpClientBuilder.create().build();*/
         /* 4.3 开始不使用 client = new DefaultHttpClient();*/
         /*设置超时时间*/
-        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
-        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 2000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 10000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 10000);
         resultjson = new JSONObject();
 
     }
