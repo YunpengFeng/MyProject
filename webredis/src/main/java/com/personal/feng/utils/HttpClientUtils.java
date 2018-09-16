@@ -35,6 +35,7 @@ public class HttpClientUtils {
     // private static HttpClient httpClient = null;
     private static CloseableHttpClient httpClient = null;
     private static JSONObject resultjson = null;
+    /*响应请求*/
     private static HttpResponse response = null;
 
     /*使用静态游离快创建HttpClient对象*/
@@ -223,7 +224,6 @@ public class HttpClientUtils {
         if (encode == null) {
             encode = "utf-8";
         }
-        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
         HttpPost httpost = new HttpPost(url);
 
         //设置header
