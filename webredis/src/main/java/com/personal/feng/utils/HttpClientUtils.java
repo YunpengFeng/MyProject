@@ -250,6 +250,7 @@ public class HttpClientUtils {
                 mEntityBuilder.addBinaryBody("file", file, contentType, file.getName());
             }
         }
+
         httpost.setEntity(mEntityBuilder.build());
         String content = null;
         try {
