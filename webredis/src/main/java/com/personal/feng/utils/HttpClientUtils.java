@@ -247,7 +247,7 @@ public class HttpClientUtils {
         //二进制参数
         if (files != null && files.size() > 0) {
             for (File file : files) {
-                mEntityBuilder.addBinaryBody("file", file, ContentType.DEFAULT_BINARY, file.getName());
+                mEntityBuilder.addBinaryBody("file", file, contentType, file.getName());
             }
         }
         httpost.setEntity(mEntityBuilder.build());
